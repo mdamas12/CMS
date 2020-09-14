@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-09-2020 a las 07:34:11
+-- Tiempo de generación: 14-09-2020 a las 04:44:42
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.7
 
@@ -51,6 +51,33 @@ INSERT INTO `brands` (`id`, `name`, `description`, `status`, `created`, `modifie
 (8, 'Reebok', 'Ropa, zapatos, deportes', 1, '2020-09-12 02:30:25', '2020-09-12 02:30:25'),
 (9, 'Nutilife', 'nutricion, accesorios', 1, '2020-09-12 02:32:35', '2020-09-12 02:32:35'),
 (10, 'Nutrimarket', 'nutricion, accesorios', 1, '2020-09-12 02:32:42', '2020-09-12 02:32:42');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_stock` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `carts`
+--
+
+INSERT INTO `carts` (`id`, `id_user`, `id_stock`, `quantity`, `status`, `created`, `modified`) VALUES
+(3, 1, 3, 2, 0, '2020-09-13 04:32:39', '2020-09-13 04:32:39'),
+(5, 1, 7, 1, 0, '2020-09-13 04:33:50', '2020-09-13 04:33:50'),
+(6, 2, 5, 3, 0, '2020-09-13 04:34:09', '2020-09-13 04:34:09'),
+(7, 2, 2, 1, 0, '2020-09-13 04:34:37', '2020-09-13 04:34:37'),
+(8, 3, 2, 1, 0, '2020-09-13 04:35:32', '2020-09-13 04:35:32');
 
 -- --------------------------------------------------------
 
@@ -284,6 +311,32 @@ INSERT INTO `stock` (`id`, `id_product`, `id_color`, `id_presentation`, `id_size
 (6, 10, 4, 7, 15, 1, 4, 1200, 3, 1, '2020-09-12 04:58:13', '2020-09-12 04:58:13'),
 (7, 10, 4, 7, 13, 1, 4, 1000, 5, 1, '2020-09-12 04:58:37', '2020-09-12 05:02:40');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `status`, `created`, `modified`) VALUES
+(1, 'Marcos Damas', '', '', 0, '2020-09-12 20:49:28', '2020-09-12 20:49:28'),
+(2, 'Luis Tundisi', '', '', 0, '2020-09-12 20:49:28', '2020-09-12 20:49:28'),
+(3, 'Marbi Damas', '', '', 0, '2020-09-12 20:49:28', '2020-09-12 20:49:28'),
+(4, 'Pedro Perez', '', '', 0, '2020-09-12 20:49:29', '2020-09-12 20:49:29');
+
 --
 -- Índices para tablas volcadas
 --
@@ -293,6 +346,14 @@ INSERT INTO `stock` (`id`, `id_product`, `id_color`, `id_presentation`, `id_size
 --
 ALTER TABLE `brands`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_stock` (`id_stock`);
 
 --
 -- Indices de la tabla `categories`
@@ -352,6 +413,12 @@ ALTER TABLE `stock`
   ADD KEY `id_coin` (`id_coin`);
 
 --
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -360,6 +427,12 @@ ALTER TABLE `stock`
 --
 ALTER TABLE `brands`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `categories`
@@ -410,8 +483,21 @@ ALTER TABLE `stock`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `carts`
+--
+ALTER TABLE `carts`
+  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id`);
 
 --
 -- Filtros para la tabla `products`

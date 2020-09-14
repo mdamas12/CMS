@@ -6,6 +6,7 @@ const sizes_routes = require('./sizesRoutes');
 const colors_routes = require('./colorsRoutes');
 const presentations_routes = require('./presentationsRoutes');
 const stock_routes = require('./stockRoutes');
+const carts_routes = require('./cartsRoutes');
 
 const router = Router(); //instanciar Router
 
@@ -18,6 +19,7 @@ router.use('/sizes', sizes_routes);
 router.use('/colors', colors_routes);
 router.use('/presentations', presentations_routes);
 router.use('/stock', stock_routes);
+router.use('/shoppingcart', carts_routes);
 
 
 module.exports = router;
